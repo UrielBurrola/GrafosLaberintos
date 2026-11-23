@@ -1,0 +1,14 @@
+Interfaz Grafica
+    Menu de Opciones
+    Desplegar el laberinto
+    Actualizar para las soluciones
+Lector de Archivo "Laberinto"
+    Selector archivo
+    Verificar estructura laberinto
+Crear el grafo
+    Nodos
+    Adyacencias
+Resoluciones
+    DFS
+    BFS
+    Dijsktra
