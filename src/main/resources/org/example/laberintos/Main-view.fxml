@@ -1,16 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
-
 <?import javafx.scene.control.Button?>
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="org.example.laberintos.MainController">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-    </padding>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-    <Label fx:id="welcomeText"/>
-    <Button text="Hello!" onAction="#onHelloButtonClick"/>
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.laberintos.MainController">
+   <children>
+      <Label alignment="CENTER" text="Laberinto">
+         <font>
+            <Font name="American Typewriter" size="26.0" />
+         </font>
+         <VBox.margin>
+            <Insets top="15.0" />
+         </VBox.margin>
+      </Label>
+      <HBox prefHeight="27.0" prefWidth="560.0" spacing="40.0">
+         <children>
+            <Button fx:id="btnDFS" mnemonicParsing="false" onAction="#onDFSClick" text="DFS" />
+            <Button fx:id="btnBFS" mnemonicParsing="false" onAction="#onBFSClick" text="BFS" />
+            <Button fx:id="btnDijkstra" mnemonicParsing="false" onAction="#onDijkstraClick" text="Dijkastra" />
+            <Button mnemonicParsing="false" text="Todos" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Button fx:id="btnCargarArchivo" mnemonicParsing="false" onAction="#onCargarArchivoClick" text="Cargar Archivo" />
+         </children>
+         <VBox.margin>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </VBox.margin>
+      </HBox>
+      <TextArea fx:id="areaCodigo" editable="false" promptText="Aqui se va a ver xd" wrapText="true" VBox.vgrow="ALWAYS">
+         <font>
+            <Font name="Monospaced Regular" size="13.0" />
+         </font>
+         <VBox.margin>
+            <Insets bottom="20.0" left="20.0" right="20.0" />
+         </VBox.margin>
+      </TextArea>
+   </children>
 </VBox>
