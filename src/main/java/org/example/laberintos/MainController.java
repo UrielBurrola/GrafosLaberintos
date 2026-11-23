@@ -1,11 +1,8 @@
 package org.example.laberintos;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 
@@ -40,19 +37,17 @@ public class MainController {
 
     //Todo: Reformatear para conectar al boton indicado
     @FXML
-    protected void onHelloButtonClick() {
+    protected void cargarLaberinto() {
         Stage stage;
-        if(welcomeText.getScene() != null){
-            stage = (Stage)welcomeText.getScene().getWindow();
-            if(stage != null)
+        if (btnCargarArchivo.getScene() != null) {
+            stage = (Stage) btnCargarArchivo.getScene().getWindow();
+            if (stage != null)
                 try {
                     ma.cargarLaberinto(stage);
-                } catch (Exception e){
+                } catch (Exception e) {
                     //Todo: Mostrar mensajes de error
                 }
 
         }
-    protected void onCargarArchivoClick() {
-        // TODO: cargar el archivo del laberinto
     }
 }
