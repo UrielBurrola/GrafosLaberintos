@@ -38,7 +38,6 @@ public class MainController {
         // TODO: ejecutar Dijkstra
     }
 
-    //Todo: Reformatear para conectar al boton indicado
     @FXML
     protected void onHelloButtonClick() {
         Stage stage;
