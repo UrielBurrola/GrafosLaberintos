@@ -2,11 +2,13 @@ package org.example.laberintos;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 
 public class MainController {
+    ManejadorArchivos ma = new ManejadorArchivos();
 
     @FXML
     private Button btnDFS;
@@ -42,25 +44,6 @@ public class MainController {
         // TODO: ejecutar Dijkstra
     }
 
-    @FXML
-    protected void onCargarArchivoClick() {
-        Stage stage = (Stage) btnCargarArchivo.getScene().getWindow();
-        try {
-            ma.cargarLaberinto(stage);
-            laberintoCargado = true;
-        } catch (Exception e) {
-            mostrarAlerta(Alert.AlertType.ERROR, "Error", "No se pudo cargar el laberinto" + e.getMessage());
-        }
-    }
-
-    private boolean hayLaberinto(){
-        if(!laberintoCargado){
-            mostrarAlerta(Alert.AlertType.WARNING, "Sin laberinto", "Debes cargar un archivo");
-            return false;
-        }
-        return true;
-    }
-
     //metodo auxiliar
     private void mostrarAlerta(Alert.AlertType tipo, String titulo, String mensaje){
         Alert alerta = new Alert(tipo);
@@ -68,5 +51,19 @@ public class MainController {
         alerta.setHeaderText(null);
         alerta.setContentText(mensaje);
         alerta.showAndWait();
+
+    @FXML
+    protected void cargarLaberinto() {
+        Stage stage;
+        if (btnCargarArchivo.getScene() != null) {
+            stage = (Stage) btnCargarArchivo.getScene().getWindow();
+            if (stage != null)
+                try {
+                    ma.cargarLaberinto(stage);
+                } catch (Exception e) {
+                    //Todo: Mostrar mensajes de error
+                }
+
+        }
     }
 }
