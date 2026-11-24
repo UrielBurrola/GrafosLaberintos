@@ -26,7 +26,7 @@
             <Button fx:id="btnDijkstra" mnemonicParsing="false" onAction="#onDijkstraClick" text="Dijkastra" />
             <Button mnemonicParsing="false" text="Todos" />
             <Region HBox.hgrow="ALWAYS" />
-            <Button fx:id="btnCargarArchivo" mnemonicParsing="false" onAction="#onCargarArchivoClick" text="Cargar Archivo" />
+            <Button fx:id="btnCargarArchivo" mnemonicParsing="false" onAction="#cargarLaberinto" text="Cargar Archivo" />
          </children>
          <VBox.margin>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
