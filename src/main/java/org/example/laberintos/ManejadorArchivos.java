@@ -13,7 +13,6 @@ public class ManejadorArchivos {
 
     public String cargarLaberinto(Stage stage) throws Exception{
         cargarArchivo(stage);
-
         if(validacionLaberinto()){
             return laberinto;
         }
@@ -61,29 +60,28 @@ public class ManejadorArchivos {
     }
 
     private boolean validacionES(String laberinto) {
-        boolean banderaE = false;
-        boolean banderaS = false;
-        int espacioES = 0;
         String[] filas = laberinto.split("\\R");
-        if(filas[0].contains(" "))
-            espacioES++;
-        if(filas[filas.length-1].contains(" "))
-            espacioES++;
-        for(String f : filas){
-            if(f.toUpperCase(Locale.ROOT).contains("E"))
-                banderaE = true;
-            if(f.toUpperCase(Locale.ROOT).contains("S"))
-                banderaS = true;
-            if(f.charAt(0) == ' ')
-                espacioES++;
-            if(f.charAt(f.length()-1) == ' ')
-                espacioES++;
-            if((espacioES == 2) && !(banderaE || banderaS))
-                return true;
-            if((banderaE && banderaS) && (espacioES == 0)) {
-                return true;
+        int cantE = 0;
+        int cantS = 0;
+        int espaciosBorde = 0;
+
+        for(int y = 0; y < filas.length; y++){
+            String fila = filas[y];
+            boolean esBorde = (y == 0 || y == filas.length-1);
+            for(int x = 0; x < fila.length(); x++){
+                char c = Character.toUpperCase(fila.charAt(x));
+                boolean esBordeColumna = (x == 0 || x == fila.length() - 1);
+
+                if(c == 'E') cantE++;
+                else if(c == 'S') cantS++;
+                else if(c == ' ' && (esBorde || esBordeColumna))
+                    espaciosBorde++;
+                if (cantE > 1 || cantS > 1 || espaciosBorde > 2 || ((cantE > 0 || cantS > 0) && espaciosBorde > 0)) {
+                    return false;
+                }
             }
         }
-        return false;
+        return (cantE == 1 && cantS == 1) || (espaciosBorde == 2);
     }
+
 }
