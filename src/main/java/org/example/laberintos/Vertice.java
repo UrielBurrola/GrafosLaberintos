@@ -2,13 +2,13 @@ package org.example.laberintos;
 
 import java.util.ArrayList;
 
-public class Nodo {
+public class Vertice {
     int x;
     int y;
 
-    private ArrayList<Nodo> adyacentes;
+    private ArrayList<Vertice> adyacentes;
 
-    public void agregarAdyacente(Nodo n){
+    public void agregarAdyacente(Vertice n){
         adyacentes.add(n);
     }
 

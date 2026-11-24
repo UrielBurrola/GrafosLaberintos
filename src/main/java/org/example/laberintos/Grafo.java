@@ -5,17 +5,16 @@ import java.util.Queue;
 import java.util.Stack;
 
 public class Grafo {
-    Nodo inicio;
-    Nodo fin;
+    Vertice inicio;
+    Vertice fin;
 
-    public Queue<Nodo> caminoBFS(){
-    }
-
-    public Stack<Nodo> caminoDFS(){
+    public Queue<Vertice> caminoBFS(){
 
     }
 
-    public ArrayList<Nodo> CaminoMasCorto(){
+    public Stack<Vertice> caminoDFS(){
+    }
 
+    public ArrayList<Vertice> CaminoMasCorto(){
     }
 }
