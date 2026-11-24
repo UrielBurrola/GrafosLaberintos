@@ -45,17 +45,16 @@ public class ManejadorArchivos {
                     throw new Exception("Caracteres invalidos dentro del archivo");
 
                 contenido = contenido.concat(linea + "\n");
-
-                if(!validacionES(contenido))
-                    throw new Exception();
             }
+            if(!validacionES(contenido))
+                throw new Exception("Tipo de entrada o salida Invalidos.");
         }
         laberinto = contenido;
         return true;
     }
 
     private boolean caracterInvalido(String linea){
-        Pattern caracteres = Pattern.compile("[^+\\-| #ES]");
+        Pattern caracteres = Pattern.compile("[^+\\-| #ES]$");
         return caracteres.matcher(linea).find();
     }
 

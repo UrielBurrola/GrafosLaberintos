@@ -22,6 +22,7 @@ public class MainController {
 
     //Avisa si intentan correr un algoritmo sin haber cargado un archivo
     private boolean laberintoCargado = false;
+    private String laberinto;
 
     @FXML
     protected void onDFSClick() {
@@ -43,7 +44,7 @@ public class MainController {
 
     private boolean sinLaberinto(){
         if(!laberintoCargado){
-            mostrarAlerta(Alert.AlertType.WARNING, "Sin laberinto", "Debes cargar un archivo");
+            mostrarAlerta(Alert.AlertType.WARNING, "Sin laberinto.", "Debes cargar un archivo");
             return true;
         }
         return false;
@@ -61,8 +62,9 @@ public class MainController {
     @FXML
     protected void cargarLaberinto() {
         try {
-            ma.cargarLaberinto(getStage());
+            laberinto = ma.cargarLaberinto(getStage());
             laberintoCargado = true;
+            areaCodigo.setText(laberinto);
         } catch (Exception e) {
             mostrarAlerta(Alert.AlertType.ERROR, "Error al cargar el archivo", e.getMessage());
         }
@@ -72,8 +74,7 @@ public class MainController {
         Stage stage;
         if (btnCargarArchivo.getScene() != null) {
             stage = (Stage) btnCargarArchivo.getScene().getWindow();
-            if (stage != null)
-                return stage;
+            return stage;
         }
         return null;
     }
