@@ -21,8 +21,6 @@ public class MainController {
     @FXML
     private TextArea areaCodigo;
 
-    private final ManejadorArchivos ma = new ManejadorArchivos();
-
     //Avisa si intentan correr un algoritmo sin haber cargado un archivo
     private boolean laberintoCargado = false;
 
@@ -44,13 +42,22 @@ public class MainController {
         // TODO: ejecutar Dijkstra
     }
 
+    private boolean hayLaberinto(){
+        if(!laberintoCargado){
+            mostrarAlerta(Alert.AlertType.WARNING, "Sin laberinto", "Debes cargar un archivo");
+            return false;
+        }
+        return true;
+    }
+
     //metodo auxiliar
-    private void mostrarAlerta(Alert.AlertType tipo, String titulo, String mensaje){
+    private void mostrarAlerta(Alert.AlertType tipo, String titulo, String mensaje) {
         Alert alerta = new Alert(tipo);
         alerta.setTitle(titulo);
         alerta.setHeaderText(null);
         alerta.setContentText(mensaje);
         alerta.showAndWait();
+    }
 
     @FXML
     protected void cargarLaberinto() {
@@ -60,8 +67,9 @@ public class MainController {
             if (stage != null)
                 try {
                     ma.cargarLaberinto(stage);
+                    laberintoCargado = true;
                 } catch (Exception e) {
-                    //Todo: Mostrar mensajes de error
+                    mostrarAlerta(Alert.AlertType.ERROR, "Error al cargar el archivo", e.getMessage());
                 }
 
         }
