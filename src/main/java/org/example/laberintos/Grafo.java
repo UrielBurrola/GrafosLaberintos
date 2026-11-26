@@ -32,10 +32,44 @@ public class Grafo {
 
     //algoritmos
     public List<Vertice> DFS() {
-        //TODO implementar DFS por pila; Vecinos arriba, derecha, abajo, izquierda
+        //implementar DFS por pila; Vecinos arriba, derecha, abajo, izquierda
+        if (entrada == null || salida == null) {
+            throw new IllegalStateException("Entrada y salida no definidas.");
+        }
 
-        //Al final resultadoDFS = construirResultado("DFS", orden, predecesores);
-        throw new UnsupportedOperationException("DFS pendiente.");
+        List<Vertice> orden = new ArrayList<>();
+        Hashtable<Integer, Integer> predecesores = new Hashtable<>();
+        Set<Integer> visitados = new HashSet<>();
+        Deque<Vertice> pila = new ArrayDeque<>();
+
+        pila.push(entrada);
+        while (!pila.isEmpty()) {
+            Vertice actual = pila.pop();
+            if (visitados.contains(actual.getId())){
+                continue;
+
+            }
+
+            visitados.add(actual.getId());
+            orden.add(actual);
+
+            if (actual.getId() == salida.getId()) {
+                break;
+            }
+
+            List<Vertice> vecinos = vecinosEnOrden(actual);
+            for (int i = vecinos.size() - 1; i >= 0; i--) {
+                Vertice vecino = vecinos.get(i);
+                if (!visitados.contains(vecino.getId())) {
+                    pila.push(vecino);
+                    predecesores.put(vecino.getId(), actual.getId());
+                }
+            }
+        }
+
+
+        resultadoDFS = construirResultado("DFS", orden, predecesores);
+        return orden;
     }
 
     public List<Vertice> BFS() {
