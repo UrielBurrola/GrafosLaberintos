@@ -13,6 +13,7 @@ public class ManejadorArchivos {
 
     public String cargarLaberinto(Stage stage) throws Exception{
         cargarArchivo(stage);
+        if(archivoLaberinto == null) return null;
         if(validacionLaberinto()){
             return laberinto;
         }
