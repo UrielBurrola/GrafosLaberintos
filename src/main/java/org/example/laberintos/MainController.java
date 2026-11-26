@@ -6,6 +6,9 @@ import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import java.util.List;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.util.Duration;
 
 public class MainController {
     ManejadorArchivos ma = new ManejadorArchivos();
@@ -26,13 +29,15 @@ public class MainController {
     //Avisa si intentan correr un algoritmo sin haber cargado un archivo
     private boolean laberintoCargado = false;
     private String laberinto;
+    private static final int MS_POR_PASO = 30;
+    private Timeline animacion;
 
     @FXML
     protected void onDFSClick() {
         if(sinLaberinto()) return;
         try {
             List<String> pasos = manejador.resolverDFS();
-            cargarSolucion("DFS", pasos, false);
+            animarSolucion("DFS", pasos);
         } catch (Exception e){
             mostrarAlerta(Alert.AlertType.ERROR, "Error al resolver", e.getMessage());
         }
@@ -44,7 +49,7 @@ public class MainController {
         if(sinLaberinto()) return;
         try {
             List<String> pasos = manejador.resolverBFS();
-            cargarSolucion("BFS", pasos, false);
+            animarSolucion("BFS", pasos);
         } catch (Exception e){
             mostrarAlerta(Alert.AlertType.ERROR, "Error al resolver", e.getMessage());
         }
@@ -55,7 +60,7 @@ public class MainController {
         if(sinLaberinto()) return;
         try {
             List<String> pasos = manejador.resolverDijkstra();
-            cargarSolucion("Dijkstra", pasos, false);
+            animarSolucion("Dijkstra", pasos);
         } catch (Exception e){
             mostrarAlerta(Alert.AlertType.ERROR, "Error al resolver", e.getMessage());
         }
@@ -64,6 +69,7 @@ public class MainController {
     @FXML
     protected void onTodosClick(){
         if(sinLaberinto()) return;
+        detenerAnimacion();
         try {
             List<String> pasosB = manejador.resolverBFS();
             List<String> pasosD = manejador.resolverDFS();
@@ -83,6 +89,27 @@ public class MainController {
         laberinto = laberinto.concat("Solucion de laberinto mediante " + nombre + ":\n");
         laberinto = laberinto.concat(pasos.get(pasos.size() - 1) + "\n");
         areaCodigo.setText(laberinto);
+    }
+
+    private void animarSolucion(String nombre, List<String> pasos) {
+        detenerAnimacion();
+        String titulo = "Solucion de laberinto mediante " + nombre + ":\n";
+
+        animacion = new Timeline();
+        for (int i = 0; i < pasos.size(); i++) {
+            String paso = pasos.get(i);
+            animacion.getKeyFrames().add(
+                    new KeyFrame(Duration.millis(i * MS_POR_PASO),
+                            e -> areaCodigo.setText(titulo + paso)));
+        }
+        animacion.play();
+    }
+
+    private void detenerAnimacion() {
+        if (animacion != null) {
+            animacion.stop();
+            animacion = null;
+        }
     }
 
     private boolean sinLaberinto(){
@@ -108,6 +135,7 @@ public class MainController {
             String texto = ma.cargarLaberinto(getStage());
             if (texto == null) return;
             manejador.cargar(texto);
+            detenerAnimacion();
             laberintoCargado = true;
             areaCodigo.setText(texto);
         } catch (Exception e) {
