@@ -72,9 +72,68 @@ public class Grafo {
 
     }
 
+    // Clase auxiliar para caminoMasCorto
+    private static class NodoDistancia {
+        final Vertice vertice;
+        final int distancia;
+
+        NodoDistancia(Vertice vertice, int distancia) {
+            this.vertice = vertice;
+            this.distancia = distancia;
+        }
+    }
+
     public List<Vertice> caminoMasCorto() {
-        //TODO Dijkastra
-        throw new UnsupportedOperationException("Dijkstra pendiente.");
+        if (entrada == null || salida == null) {
+            throw new IllegalStateException("Entrada y salida no definidas.");
+        }
+
+        List<Vertice> orden = new ArrayList<>();
+        Hashtable<Integer, Integer> predecesores = new Hashtable<>();
+        Hashtable<Integer, Integer> distancias = new Hashtable<>();
+        Set<Integer> visitados = new HashSet<>();
+        PriorityQueue<NodoDistancia> cola = new PriorityQueue<>(Comparator.comparingInt(n -> n.distancia));
+
+        for (Vertice v : vertices.todos()) {
+            distancias.put(v.getId(), Integer.MAX_VALUE);
+        }
+
+        distancias.put(entrada.getId(), 0);
+        cola.add(new NodoDistancia(entrada, 0));
+
+        while (!cola.isEmpty()) {
+            NodoDistancia nodoActual = cola.poll();
+            Vertice actual = nodoActual.vertice;
+
+            // Ignorar entradas desactualizadas en la cola de prioridad
+            if (visitados.contains(actual.getId())) {
+                continue;
+            }
+
+            visitados.add(actual.getId());
+            orden.add(actual);
+
+            if (actual.getId() == salida.getId()) {
+                break;
+            }
+
+            for (Arcos arco : adyacencia.get(actual.getId())) {
+                Vertice vecino = arco.otroExtremo(actual);
+                if (visitados.contains(vecino.getId())) {
+                    continue;
+                }
+
+                int nuevaDistancia = distancias.get(actual.getId()) + arco.getCosto();
+                if (nuevaDistancia < distancias.get(vecino.getId())) {
+                    distancias.put(vecino.getId(), nuevaDistancia);
+                    predecesores.put(vecino.getId(), actual.getId());
+                    cola.add(new NodoDistancia(vecino, nuevaDistancia));
+                }
+            }
+        }
+
+        resultadoDijkstra = construirResultado("Dijkstra", orden, predecesores);
+        return orden;
     }
 
     //auxiliares

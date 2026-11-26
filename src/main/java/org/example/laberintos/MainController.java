@@ -47,7 +47,12 @@ public class MainController {
     @FXML
     protected void onDijkstraClick() {
         if(sinLaberinto()) return;
-        // TODO: ejecutar Dijkstra
+        try {
+            List<String> pasos = manejador.resolverDijkstra();
+            areaCodigo.setText(pasos.get(pasos.size() - 1));
+        } catch (Exception e){
+            mostrarAlerta(Alert.AlertType.ERROR, "Error al resolver", e.getMessage());
+        }
     }
 
     private boolean sinLaberinto(){
