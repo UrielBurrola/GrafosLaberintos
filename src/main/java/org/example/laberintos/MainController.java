@@ -32,7 +32,7 @@ public class MainController {
         if(sinLaberinto()) return;
         try {
             List<String> pasos = manejador.resolverDFS();
-            areaCodigo.setText(pasos.get(pasos.size() - 1));
+            cargarSolucion("DFS", pasos, false);
         } catch (Exception e){
             mostrarAlerta(Alert.AlertType.ERROR, "Error al resolver", e.getMessage());
         }
@@ -44,7 +44,7 @@ public class MainController {
         if(sinLaberinto()) return;
         try {
             List<String> pasos = manejador.resolverBFS();
-            areaCodigo.setText(pasos.get(pasos.size() - 1));
+            cargarSolucion("BFS", pasos, false);
         } catch (Exception e){
             mostrarAlerta(Alert.AlertType.ERROR, "Error al resolver", e.getMessage());
         }
@@ -55,10 +55,17 @@ public class MainController {
         if(sinLaberinto()) return;
         try {
             List<String> pasos = manejador.resolverDijkstra();
-            areaCodigo.setText(pasos.get(pasos.size() - 1));
+            cargarSolucion("Dijkstra", pasos, false);
         } catch (Exception e){
             mostrarAlerta(Alert.AlertType.ERROR, "Error al resolver", e.getMessage());
         }
+    }
+
+    private void cargarSolucion(String nombre, List<String> pasos, boolean todos){
+        laberinto = "";
+        laberinto = laberinto.concat("Solucion de laberinto mediante " + nombre + ":\n");
+        laberinto = laberinto.concat(pasos.get(pasos.size() - 1));
+        areaCodigo.setText(laberinto);
     }
 
     private boolean sinLaberinto(){
