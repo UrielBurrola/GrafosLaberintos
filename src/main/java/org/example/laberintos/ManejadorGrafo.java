@@ -62,7 +62,7 @@ public class ManejadorGrafo {
         if (entrada == null || salida == null) {
             for (int i = 0; i < numFilas; i++) {
                 for (int j = 0; j < numColumnas; j++) {
-                    if (filas[i].charAt(j) == ' ') {
+                    if (filas[i].charAt(j) == ' ' || filas[i].charAt(j) == '#') {
                         Vertice v = mapa[i][j];
                         boolean esBorde = i == 0 || i == numFilas - 1 || j == 0 || j == numColumnas - 1;
                         if (v != null && esBorde) {
