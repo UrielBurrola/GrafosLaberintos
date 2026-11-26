@@ -1,0 +1,72 @@
+
+.root {
+    -miku:          #39C5BB;
+    -miku-oscuro:   #1E9C95;
+    -cian:          #5EE3F0;
+    -azul-profundo: #0B4F6C;
+    -rosa:          #E12885;
+
+    -fx-background-color: linear-gradient(to bottom right, #E8FFFC 0%, #B6F0EA 45%, #7FD8E8 100%);
+}
+
+.label {
+    -fx-text-fill: -azul-profundo;
+}
+
+.button {
+    -fx-background-color: linear-gradient(to bottom, #5EE3F0 0%, #39C5BB 55%, #1E9C95 100%);
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 14;
+    -fx-border-radius: 14;
+    -fx-border-color: rgba(255, 255, 255, 0.6);
+    -fx-padding: 6 12 6 12;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(30, 156, 149, 0.45), 8, 0, 0, 2);
+}
+.button:hover {
+    -fx-background-color: linear-gradient(to bottom, #9BF5FB 0%, #5EE3F0 55%, #39C5BB 100%);
+}
+.button:pressed {
+    -fx-background-color: linear-gradient(to bottom, #1E9C95 0%, #167F79 100%);
+    -fx-translate-y: 1;
+}
+.button:focused {
+    -fx-border-color: white;
+}
+
+#btnCargarArchivo {
+    -fx-background-color: linear-gradient(to bottom, #FF7DBF 0%, #E12885 60%, #B81C6B 100%);
+    -fx-effect: dropshadow(gaussian, rgba(225, 40, 133, 0.45), 8, 0, 0, 2);
+}
+#btnCargarArchivo:hover {
+    -fx-background-color: linear-gradient(to bottom, #FFA3D3 0%, #FF5BAA 60%, #E12885 100%);
+}
+#btnCargarArchivo:pressed {
+    -fx-background-color: linear-gradient(to bottom, #B81C6B 0%, #94155A 100%);
+}
+
+.text-area {
+    -fx-background-color: -miku;
+    -fx-background-radius: 14;
+    -fx-background-insets: 0;
+    -fx-padding: 2;
+    -fx-text-fill: -azul-profundo;
+    -fx-effect: dropshadow(gaussian, rgba(11, 79, 108, 0.25), 10, 0, 0, 3);
+}
+.text-area .content {
+    -fx-background-color: linear-gradient(to bottom, #FFFFFF 0%, #EAFFFD 100%);
+    -fx-background-radius: 12;
+}
+.text-area .scroll-bar:vertical .thumb,
+.text-area .scroll-bar:horizontal .thumb {
+    -fx-background-color: -miku;
+    -fx-background-radius: 8;
+}
+
+.dialog-pane {
+    -fx-background-color: linear-gradient(to bottom, #E8FFFC 0%, #B6F0EA 60%, #7FD8E8 100%);
+}
+.dialog-pane > .content.label {
+    -fx-text-fill: -azul-profundo;
+}

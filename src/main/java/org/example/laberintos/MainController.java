@@ -9,6 +9,14 @@ import java.util.List;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
+import javafx.scene.control.Label;
+import javafx.scene.text.Font;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import javafx.geometry.Pos;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.FontWeight;
 
 public class MainController {
     ManejadorArchivos ma = new ManejadorArchivos();
@@ -78,6 +86,7 @@ public class MainController {
             cargarSolucion("BFS", pasosB, true);
             cargarSolucion("DFS", pasosD, true);
             cargarSolucion("Dijkstra", pasosDi, true);
+            mostrarArte();
         } catch (Exception e){
             mostrarAlerta(Alert.AlertType.ERROR, "Error al resolver", e.getMessage());
         }
@@ -102,6 +111,7 @@ public class MainController {
                     new KeyFrame(Duration.millis(i * MS_POR_PASO),
                             e -> areaCodigo.setText(titulo + paso)));
         }
+        animacion.setOnFinished(e -> mostrarArte());
         animacion.play();
     }
 
@@ -109,6 +119,37 @@ public class MainController {
         if (animacion != null) {
             animacion.stop();
             animacion = null;
+        }
+    }
+
+    //Este metodo es solo para que se vea bonito, detalle totalmente opcional
+    private void mostrarArte() {
+        String arte = cargarArte();
+        if (arte == null) return;
+
+        Label figura = new Label(arte);
+        figura.setFont(Font.font("Monospaced", 10));
+
+        Label mensaje = new Label("Bien hecho!");
+        mensaje.setFont(Font.font("System", FontWeight.BOLD, 20));
+        VBox contenido = new VBox(10, figura, mensaje);
+        contenido.setAlignment(Pos.CENTER);
+
+        Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+        alerta.setTitle("Fin del recorrido");
+        alerta.setHeaderText(null);
+        alerta.setGraphic(null);
+        alerta.getDialogPane().setContent(contenido);
+        alerta.getDialogPane().getStylesheets().add(MainController.class.getResource("estilo.css").toExternalForm());
+        alerta.show();
+    }
+
+    private String cargarArte() {
+        try (InputStream in = MainController.class.getResourceAsStream("arte.txt")) {
+            if (in == null) return null;
+            return new String(in.readAllBytes(), StandardCharsets.UTF_8).trim();
+        } catch (IOException e) {
+            return null;
         }
     }
 
