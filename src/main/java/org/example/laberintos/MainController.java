@@ -5,9 +5,12 @@ import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import java.util.List;
 
 public class MainController {
     ManejadorArchivos ma = new ManejadorArchivos();
+
+    private final ManejadorGrafo manejador = new ManejadorGrafo();
 
     @FXML
     private Button btnDFS;
@@ -33,7 +36,12 @@ public class MainController {
     @FXML
     protected void onBFSClick() {
         if(sinLaberinto()) return;
-        // TODO: ejecutar BFS
+        try {
+            List<String> pasos = manejador.resolverBFS();
+            areaCodigo.setText(pasos.get(pasos.size() - 1));
+        } catch (Exception e){
+            mostrarAlerta(Alert.AlertType.ERROR, "Error al resolver", e.getMessage());
+        }
     }
 
     @FXML
@@ -62,9 +70,11 @@ public class MainController {
     @FXML
     protected void cargarLaberinto() {
         try {
-            laberinto = ma.cargarLaberinto(getStage());
+            String texto = ma.cargarLaberinto(getStage());
+            if (texto == null) return;
+            manejador.cargar(texto);
             laberintoCargado = true;
-            areaCodigo.setText(laberinto);
+            areaCodigo.setText(texto);
         } catch (Exception e) {
             mostrarAlerta(Alert.AlertType.ERROR, "Error al cargar el archivo", e.getMessage());
         }

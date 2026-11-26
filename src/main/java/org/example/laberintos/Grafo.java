@@ -13,7 +13,7 @@ public class Grafo {
     private Resultado resultadoBFS;
     private Resultado resultadoDijkstra;
 
-    public void AgregarVertice(Vertice v){
+    public void agregarVertice(Vertice v){
         vertices.agregar(v);
         adyacencia.put(v.getId(), new LinkedList<>());
     }
@@ -33,14 +33,43 @@ public class Grafo {
     //algoritmos
     public List<Vertice> DFS() {
         //TODO implementar DFS por pila; Vecinos arriba, derecha, abajo, izquierda
+
         //Al final resultadoDFS = construirResultado("DFS", orden, predecesores);
         throw new UnsupportedOperationException("DFS pendiente.");
     }
 
     public List<Vertice> BFS() {
-        //TODO implementar BFS por cola; Vecinos arriba, derecha, abajo, izquierda
-        //Al final resultadoBFS = construirResultado("BFS", orden, predecesores);
-        throw new UnsupportedOperationException("BFS pendiente.");
+        if (entrada == null || salida == null) {
+            throw new IllegalStateException("Entrada y salida no definidas.");
+        }
+
+        List<Vertice> orden = new ArrayList<>();
+        Hashtable<Integer, Integer> predecesores = new Hashtable<>();
+        Set<Integer> descubiertos = new HashSet<>();
+        Queue<Vertice> cola = new LinkedList<>();
+
+        cola.add(entrada);
+        descubiertos.add(entrada.getId());
+
+        while (!cola.isEmpty()) {
+            Vertice actual = cola.remove();
+            orden.add(actual);
+            if (actual.getId() == salida.getId()) {
+                break;
+            }
+
+            // Agregar vecinos no visitados a la cola
+            for (Vertice vecino : vecinosEnOrden(actual)) {
+                if (!descubiertos.contains(vecino.getId())) {
+                    cola.add(vecino);
+                    descubiertos.add(vecino.getId());
+                    predecesores.put(vecino.getId(), actual.getId());
+                }
+            }
+        }
+        resultadoBFS = construirResultado("BFS", orden, predecesores);
+        return orden;
+
     }
 
     public List<Vertice> caminoMasCorto() {
@@ -50,13 +79,37 @@ public class Grafo {
 
     //auxiliares
     private List<Vertice> vecinosEnOrden(Vertice v) {
-        // TODO
-        throw new UnsupportedOperationException("vecinosEnOrden pendiente");
+        int[] dfila = {-1, 0, 1, 0};
+        int[] dcolumna = {0, 1, 0, -1};
+        List<Vertice> resultado = new ArrayList<>();
+
+        for (int i = 0; i < 4; i++) {
+            int fila = v.getFila() + dfila[i];
+            int columna = v.getColumna() + dcolumna[i];
+
+            for (Arcos a : adyacencia.get(v.getId())) {
+                Vertice w = a.otroExtremo(v);
+                if (w.getFila() == fila && w.getColumna() == columna) {
+                    resultado.add(w);
+                    break;
+                }
+            }
+
+        }
+        return resultado;
     }
 
     private Resultado construirResultado(String algoritmo, List<Vertice> orden, Hashtable<Integer, Integer> predecesores) {
-        // TODO
-        throw new UnsupportedOperationException("construirResultado pendiente");
+        boolean haySolucion = orden.get(orden.size() - 1).getId() == salida.getId();
+        LinkedList<Vertice> camino = new LinkedList<>();
+        if (haySolucion) {
+            Integer id = salida.getId();
+            while (id != null) {
+                camino.addFirst(vertices.obtener(id));
+                id = predecesores.get(id);
+            }
+        }
+        return new Resultado(algoritmo, orden, camino, haySolucion);
     }
 
     public Resultado getResultadoDFS() { return resultadoDFS; }
