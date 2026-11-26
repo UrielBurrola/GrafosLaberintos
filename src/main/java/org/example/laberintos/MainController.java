@@ -30,7 +30,13 @@ public class MainController {
     @FXML
     protected void onDFSClick() {
         if(sinLaberinto()) return;
-        // TODO: ejecutar DFS
+        try {
+            List<String> pasos = manejador.resolverDFS();
+            areaCodigo.setText(pasos.get(pasos.size() - 1));
+        } catch (Exception e){
+            mostrarAlerta(Alert.AlertType.ERROR, "Error al resolver", e.getMessage());
+        }
+
     }
 
     @FXML
