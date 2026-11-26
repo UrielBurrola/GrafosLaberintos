@@ -70,3 +70,14 @@
 .dialog-pane > .content.label {
     -fx-text-fill: -azul-profundo;
 }
+/* Control de la pausa del paso a paso */
+.slider .track {
+    -fx-background-color: rgba(11, 79, 108, 0.20);
+    -fx-background-radius: 4;
+}
+.slider .thumb {
+    -fx-background-color: linear-gradient(to bottom, #5EE3F0, #39C5BB);
+    -fx-background-radius: 10;
+    -fx-border-color: white;
+    -fx-border-radius: 10;
+}

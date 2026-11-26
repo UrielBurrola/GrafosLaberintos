@@ -17,6 +17,7 @@ import java.nio.charset.StandardCharsets;
 import javafx.geometry.Pos;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.FontWeight;
+import javafx.scene.control.Slider;
 
 public class MainController {
     ManejadorArchivos ma = new ManejadorArchivos();
@@ -33,12 +34,26 @@ public class MainController {
     private Button btnCargarArchivo;
     @FXML
     private TextArea areaCodigo;
+    @FXML
+    private Slider sliderPausa;
+    @FXML
+    private Label lblPausa;
 
     //Avisa si intentan correr un algoritmo sin haber cargado un archivo
     private boolean laberintoCargado = false;
     private String laberinto;
     private static final int MS_POR_PASO = 30;
     private Timeline animacion;
+
+    @FXML
+    private void initialize() {
+        sliderPausa.valueProperty().addListener((obs, anterior, nuevo) -> {
+            lblPausa.setText(Math.round(nuevo.doubleValue()) + " ms");
+            if (animacion != null) {
+                animacion.setRate(MS_POR_PASO / nuevo.doubleValue());
+            }
+        });
+    }
 
     @FXML
     protected void onDFSClick() {
@@ -111,6 +126,7 @@ public class MainController {
                     new KeyFrame(Duration.millis(i * MS_POR_PASO),
                             e -> areaCodigo.setText(titulo + paso)));
         }
+        animacion.setRate(MS_POR_PASO / sliderPausa.getValue());
         animacion.setOnFinished(e -> mostrarArte());
         animacion.play();
     }

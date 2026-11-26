@@ -28,6 +28,16 @@
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </VBox.margin>
       </HBox>
+      <HBox alignment="CENTER_LEFT" spacing="10.0">
+         <children>
+            <Label text="Pausa por paso:" />
+            <Slider fx:id="sliderPausa" blockIncrement="5.0" max="300.0" min="5.0" prefWidth="220.0" value="30.0" />
+            <Label fx:id="lblPausa" text="30 ms" />
+         </children>
+         <VBox.margin>
+            <Insets bottom="15.0" left="20.0" right="20.0" />
+         </VBox.margin>
+      </HBox>
       <TextArea fx:id="areaCodigo" editable="false" promptText="Aqui se va a ver xd" wrapText="true" VBox.vgrow="ALWAYS">
          <font>
             <Font name="Monospaced Regular" size="13.0" />

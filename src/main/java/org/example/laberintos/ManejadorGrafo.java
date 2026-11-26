@@ -102,6 +102,8 @@ public class ManejadorGrafo {
         return despliegaLaberinto(grafo.caminoMasCorto(), grafo.getResultadoDijkstra());
     }
 
+    private static final String LEYENDA = "\nE entrada   S salida   @ actual   . visitado   * camino\n" + "+ - | pared   # y espacio: posicion transitable\n";
+
     //String por paso y marca el camino final o te dice si no hay solucion
     public List<String> despliegaLaberinto(List<Vertice> ordenVisita, Resultado resultado) {
         String[] filas = laberinto.split("\\R");
@@ -109,25 +111,43 @@ public class ManejadorGrafo {
         for (int i = 0; i < filas.length; i++) {
             tablero[i] = filas[i].toCharArray();
         }
+
+        Vertice entrada = grafo.getEntrada();
+        Vertice salida = grafo.getSalida();
+        tablero[entrada.getFila()][entrada.getColumna()] = 'E';
+        tablero[salida.getFila()][salida.getColumna()] = 'S';
+
         List<String> pasos = new ArrayList<>();
+        Vertice anterior = null;
         for (Vertice v : ordenVisita) {
-            if (tablero[v.getFila()][v.getColumna()] == ' ') {
-                tablero[v.getFila()][v.getColumna()] = '.';
+            if (anterior != null) {
+                marcarVisitado(tablero, anterior, entrada, salida);
             }
-            pasos.add(tableroATexto(tablero));
+            tablero[v.getFila()][v.getColumna()] = '@';
+            pasos.add(tableroATexto(tablero) + LEYENDA);
+            anterior = v;
+        }
+        if (anterior != null) {
+            marcarVisitado(tablero, anterior, entrada, salida);
         }
         if (resultado.haySolucion()) {
-            for (Vertice v : resultado.getCamino()) {
-                if (tablero[v.getFila()][v.getColumna()] == '.') {
+            for(Vertice v : resultado.getCamino()){
+                if (tablero[v.getFila()][v.getColumna()] == '.'){
                     tablero[v.getFila()][v.getColumna()] = '*';
                 }
             }
-            pasos.add(tableroATexto(tablero) + "\n" + resultado.getAlgoritmo() + ": "
-                    + ordenVisita.size() + " visitados, " + resultado.longitudMovimientos() + " movimientos");
+            pasos.add(tableroATexto(tablero) + LEYENDA + "\n" + resultado.getAlgoritmo() + ": " + ordenVisita.size() + " visitados, " + resultado.longitudMovimientos() + " movimientos");
         } else {
-            pasos.add(tableroATexto(tablero) + "\n" + resultado.getAlgoritmo() + ": no hay solución");
+            pasos.add(tableroATexto(tablero) + LEYENDA + "\n" + resultado.getAlgoritmo() + ": no hay solución");
         }
         return pasos;
+    }
+
+    private void marcarVisitado(char[][] tablero, Vertice v, Vertice entrada, Vertice salida) {
+        char marca = '.';
+        if (v.equals(entrada)) marca = 'E';
+        else if (v.equals(salida)) marca = 'S';
+        tablero[v.getFila()][v.getColumna()] = marca;
     }
 
     private String tableroATexto(char[][] tablero) {
