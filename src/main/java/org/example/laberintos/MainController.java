@@ -61,10 +61,27 @@ public class MainController {
         }
     }
 
+    @FXML
+    protected void onTodosClick(){
+        if(sinLaberinto()) return;
+        try {
+            List<String> pasosB = manejador.resolverBFS();
+            List<String> pasosD = manejador.resolverDFS();
+            List<String> pasosDi = manejador.resolverDijkstra();
+            laberinto = "";
+            cargarSolucion("BFS", pasosB, true);
+            cargarSolucion("DFS", pasosD, true);
+            cargarSolucion("Dijkstra", pasosDi, true);
+        } catch (Exception e){
+            mostrarAlerta(Alert.AlertType.ERROR, "Error al resolver", e.getMessage());
+        }
+    }
+
     private void cargarSolucion(String nombre, List<String> pasos, boolean todos){
-        laberinto = "";
+        if(!todos)
+            laberinto = "";
         laberinto = laberinto.concat("Solucion de laberinto mediante " + nombre + ":\n");
-        laberinto = laberinto.concat(pasos.get(pasos.size() - 1));
+        laberinto = laberinto.concat(pasos.get(pasos.size() - 1) + "\n");
         areaCodigo.setText(laberinto);
     }
 
