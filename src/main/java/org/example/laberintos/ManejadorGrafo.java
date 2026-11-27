@@ -158,9 +158,4 @@ public class ManejadorGrafo {
         return sb.toString();
     }
 
-
-    public String mostrarTresSoluciones() {
-        //TODO
-        throw new UnsupportedOperationException("mostrarTresSoluciones pendiente");
-    }
 }

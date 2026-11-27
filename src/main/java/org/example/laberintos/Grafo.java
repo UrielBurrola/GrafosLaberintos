@@ -32,7 +32,7 @@ public class Grafo {
 
     //algoritmos
     public List<Vertice> DFS() {
-        //implementar DFS por pila; Vecinos arriba, derecha, abajo, izquierda
+        // Pila: marca al sacar y mete los vecinos al reves para explorar arriba, derecha, abajo, izquierda
         if (entrada == null || salida == null) {
             throw new IllegalStateException("Entrada y salida no definidas.");
         }
@@ -126,7 +126,7 @@ public class Grafo {
         Hashtable<Integer, Integer> predecesores = new Hashtable<>();
         Hashtable<Integer, Integer> distancias = new Hashtable<>();
         Set<Integer> visitados = new HashSet<>();
-        PriorityQueue<NodoDistancia> cola = new PriorityQueue<>(Comparator.comparingInt(n -> n.distancia));
+        PriorityQueue<NodoDistancia> cola = new PriorityQueue<>(Comparator.comparingInt((NodoDistancia n) -> n.distancia).thenComparingInt(n -> n.vertice.getId()));
 
         for (Vertice v : vertices.todos()) {
             distancias.put(v.getId(), Integer.MAX_VALUE);
